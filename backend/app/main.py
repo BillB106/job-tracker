@@ -6,7 +6,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
-from .db import get_db, init_db
+from .db import get_db, init_db, engine
 from .models import Job, PRIO_VALUES, STATUS_VALUES
 from .schemas import JobCreate, JobUpdate, ImportPayload, LoginPayload
 from . import auth
@@ -114,4 +114,5 @@ if FRONTEND_DIR.exists():
 
 @app.get("/healthz")
 def healthz():
-    return {"ok": True}
+    # `db` reports the active backend: "postgresql" (persistent) or "sqlite" (ephemeral).
+    return {"ok": True, "db": engine.dialect.name}
