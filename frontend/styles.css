@@ -1,0 +1,43 @@
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1a2330; background: #f4f6fa; }
+.hidden { display: none !important; }
+
+/* Login */
+.login-overlay {
+  position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: #1f2c3d;
+}
+.login-card {
+  background: #fff; padding: 32px 36px; border-radius: 12px; width: 320px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.25); display: flex; flex-direction: column; gap: 12px;
+}
+.login-card h1 { margin: 0; font-size: 22px; }
+.login-card p { margin: 0 0 4px; color: #5a6b80; font-size: 14px; }
+.login-card input { padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; }
+.login-card button { padding: 10px; border: 0; border-radius: 8px; background: #1f4e78; color: #fff; font-size: 15px; cursor: pointer; }
+.login-card button:hover { background: #163a5a; }
+.error { color: #c0392b; font-size: 13px; min-height: 16px; }
+
+/* App layout */
+#app { display: flex; flex-direction: column; height: 100vh; }
+.toolbar {
+  display: flex; align-items: center; gap: 10px; padding: 12px 18px;
+  background: #1f4e78; color: #fff;
+}
+.toolbar h1 { font-size: 18px; margin: 0; }
+.toolbar .spacer { flex: 1; }
+.toolbar .count { font-size: 13px; opacity: .85; margin-right: 6px; }
+.toolbar button {
+  padding: 7px 14px; border: 0; border-radius: 7px; cursor: pointer;
+  background: #2ecc71; color: #fff; font-size: 13px; font-weight: 600;
+}
+.toolbar button.secondary { background: rgba(255,255,255,.16); }
+.toolbar button:hover { filter: brightness(1.08); }
+#grid { flex: 1; width: 100%; }
+
+/* Prio-based row colouring (overrides AG Grid theme row background) */
+.ag-row.prio-tackle  { background-color: #fcdcd8 !important; }  /* red    – tackle now */
+.ag-row.prio-eye     { background-color: #fdf2c9 !important; }  /* yellow – keep an eye on */
+.ag-row.prio-applied { background-color: #d8f3df !important; }  /* green  – applied / in progress */
+.ag-row.prio-discard .ag-cell { color: #aab2bd !important; }    /* light grey font – discard */
+.ag-row.prio-discard .ag-cell a { color: #aab2bd !important; }  /* dim the title link too */

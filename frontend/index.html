@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Tracker</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <!-- AG Grid Community (per-column filter + sort built in) -->
+  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@33.0.3/dist/ag-grid-community.min.js"></script>
+</head>
+<body>
+  <!-- Login overlay -->
+  <div id="login" class="login-overlay hidden">
+    <form id="login-form" class="login-card">
+      <h1>Job Tracker</h1>
+      <p>Enter password to continue.</p>
+      <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
+      <button type="submit">Log in</button>
+      <div id="login-error" class="error"></div>
+    </form>
+  </div>
+
+  <!-- App -->
+  <div id="app" class="hidden">
+    <header class="toolbar">
+      <h1>Job Tracker</h1>
+      <div class="spacer"></div>
+      <span id="count" class="count"></span>
+      <button id="add-btn">+ Add job</button>
+      <button id="clear-filters-btn" class="secondary">Clear filters</button>
+      <button id="logout-btn" class="secondary">Log out</button>
+    </header>
+    <div id="grid"></div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
