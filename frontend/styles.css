@@ -41,3 +41,11 @@ html, body { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystem
 .ag-row.prio-applied { background-color: #d8f3df !important; }  /* green  – applied / in progress */
 .ag-row.prio-discard .ag-cell { color: #aab2bd !important; }    /* light grey font – discard */
 .ag-row.prio-discard .ag-cell a { color: #aab2bd !important; }  /* dim the title link too */
+
+/* Offline jobs: italic + strikethrough + light grey font */
+.ag-row.status-offline .ag-cell,
+.ag-row.status-offline .ag-cell a {
+  font-style: italic;
+  text-decoration: line-through;
+  color: #aab2bd !important;
+}

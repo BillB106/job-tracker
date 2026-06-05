@@ -90,7 +90,7 @@ async function onCellValueChanged(e) {
   try {
     const updated = await api(`/api/jobs/${e.data.id}`, { method: "PATCH", body: JSON.stringify(patch) });
     e.node.setData(updated);
-    if (field === "prio") gridApi.redrawRows({ rowNodes: [e.node] }); // re-apply row colour
+    if (field === "prio" || field === "status") gridApi.redrawRows({ rowNodes: [e.node] }); // re-apply row styling
 
   } catch (err) {
     alert("Update failed: " + err.message);
@@ -122,6 +122,7 @@ async function initGrid() {
       "prio-eye": (p) => p.data && p.data.prio === "Keep an eye on",
       "prio-applied": (p) => p.data && p.data.prio === "Applied / in progress",
       "prio-discard": (p) => p.data && p.data.prio === "Discard / not interested",
+      "status-offline": (p) => p.data && p.data.status === "Offline",
     },
     onCellValueChanged,
     onModelUpdated: updateCount,
