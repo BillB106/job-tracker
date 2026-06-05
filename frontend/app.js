@@ -141,6 +141,27 @@ $("add-btn").addEventListener("click", async () => {
   updateCount();
 });
 
+$("export-btn").addEventListener("click", async () => {
+  const btn = $("export-btn");
+  const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = "Exporting…";
+  try {
+    const res = await fetch("/api/export.xlsx");
+    if (res.status === 401) { showLogin(); return; }
+    if (!res.ok) throw new Error(res.statusText);
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "job_tracker_export.xlsx";
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  } catch (e) {
+    alert("Export failed: " + e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = orig;
+  }
+});
+
 $("clear-filters-btn").addEventListener("click", () => {
   gridApi.setFilterModel(null);
 });

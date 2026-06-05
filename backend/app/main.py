@@ -11,6 +11,7 @@ from .models import Job, PRIO_VALUES, STATUS_VALUES
 from .schemas import JobCreate, JobUpdate, ImportPayload, LoginPayload
 from . import auth
 from .importer import import_jobs, upsert_job
+from .excel import build_xlsx_bytes
 
 app = FastAPI(title="Job Tracker")
 
@@ -101,6 +102,18 @@ def import_endpoint(payload: ImportPayload, db: Session = Depends(get_db),
                     _: bool = Depends(auth.require_auth)):
     result = import_jobs(db, [j.model_dump() for j in payload.jobs], payload.portal)
     return result
+
+
+# ---------------- Excel export ----------------
+@app.get("/api/export.xlsx")
+def export_xlsx(db: Session = Depends(get_db), _: bool = Depends(auth.require_auth)):
+    jobs = [j.as_dict() for j in db.query(Job).order_by(Job.id.asc()).all()]
+    data = build_xlsx_bytes(jobs)
+    return Response(
+        content=data,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": 'attachment; filename="job_tracker_export.xlsx"'},
+    )
 
 
 # ---------------- static frontend ----------------
