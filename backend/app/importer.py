@@ -52,22 +52,51 @@ def upsert_job(db: Session, data: dict, portal: str) -> tuple[Job, bool]:
         created = True
     else:
         # EXISTING job: refresh only the scraped fields. Prio, Status and Notes
-        # are user-owned and are NEVER overwritten by a scrape/import.
+        # are user-owned and are NEVER overwritten by a scrape/import — the one
+        # exception is that a job which reappears in the scrape is un-archived
+        # (Archived -> Open), since it's clearly back in your saved list.
         for f in SCRAPED_FIELDS:
             if data.get(f):
                 setattr(job, f, data.get(f))
+        if job.status == "Archived":
+            job.status = DEFAULT_STATUS
         job.last_checked = now
 
     return job, created
 
 
-def import_jobs(db: Session, jobs: list[dict], portal: str) -> dict:
+def import_jobs(db: Session, jobs: list[dict], portal: str,
+                archive_missing: bool = False) -> dict:
     created = updated = 0
+    incoming_ids = set()
     for data in jobs:
-        _, was_created = upsert_job(db, data, portal)
+        job, was_created = upsert_job(db, data, portal)
+        if job.external_id:
+            incoming_ids.add(job.external_id)
         if was_created:
             created += 1
         else:
             updated += 1
+
+    archived = 0
+    # Only archive when we actually received jobs (guards against wiping the
+    # board on an empty/partial sync). Scoped to this portal, and only jobs that
+    # have an external_id — manually-added entries (no id) are never touched.
+    if archive_missing and incoming_ids:
+        stale = (
+            db.query(Job)
+            .filter(
+                Job.job_portal == portal,
+                Job.external_id != "",
+                Job.external_id.notin_(incoming_ids),
+                Job.status != "Archived",
+            )
+            .all()
+        )
+        for j in stale:
+            j.status = "Archived"
+            archived += 1
+
     db.commit()
-    return {"created": created, "updated": updated, "total": created + updated}
+    return {"created": created, "updated": updated, "archived": archived,
+            "total": created + updated}

@@ -100,7 +100,8 @@ def delete_job(job_id: int, db: Session = Depends(get_db),
 @app.post("/api/import")
 def import_endpoint(payload: ImportPayload, db: Session = Depends(get_db),
                     _: bool = Depends(auth.require_auth)):
-    result = import_jobs(db, [j.model_dump() for j in payload.jobs], payload.portal)
+    result = import_jobs(db, [j.model_dump() for j in payload.jobs], payload.portal,
+                         archive_missing=payload.archive_missing)
     return result
 
 

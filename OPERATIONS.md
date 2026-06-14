@@ -39,6 +39,19 @@ LinkedIn can only be scraped **from your own logged-in browser** — it can't ru
 - **Upsert behaviour:** matches by `job_portal + external_id`. New jobs added, existing ones refreshed.
 - **Your Prio / Status / Notes are NEVER overwritten** by a re-scrape.
 
+### Clean up jobs you've un-saved (archive-missing)
+Add `--archive-missing` to flag any LinkedIn job NOT in the current scrape as
+`Archived` (a status that dims + strikes the row). Manually-added jobs (other
+portals / no LinkedIn id) are never touched, and a job that reappears in a later
+scrape is automatically un-archived back to `Open`.
+```bash
+python3 sync_linkedin.py --json scraped.json --archive-missing \
+  --base-url https://job-tracker-production-bdcc.up.railway.app \
+  --password 'YOUR_APP_PASSWORD'
+```
+Safety: archiving only runs when the scrape actually returned jobs (an empty
+file won't wipe the board). Status values are now: Open / Offline / Unknown / Archived.
+
 ## 📤 Update the Excel export
 Two ways — both pull **live** data and include colours/links/offline styling:
 - **Easiest:** click **"⬇ Export Excel"** in the app toolbar → downloads `job_tracker_export.xlsx`.

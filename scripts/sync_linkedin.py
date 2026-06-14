@@ -47,6 +47,8 @@ def main():
     ap.add_argument("--base-url", default="http://localhost:8000")
     ap.add_argument("--password", required=True)
     ap.add_argument("--portal", default="LinkedIn")
+    ap.add_argument("--archive-missing", action="store_true",
+                    help="Flag jobs of this portal not in the scrape as Archived")
     args = ap.parse_args()
 
     with open(args.json) as f:
@@ -60,7 +62,8 @@ def main():
     if login.status_code != 200:
         sys.exit(f"Login failed ({login.status_code}).")
 
-    res = s.post(f"{args.base_url}/api/import", json={"portal": args.portal, "jobs": jobs})
+    res = s.post(f"{args.base_url}/api/import", json={
+        "portal": args.portal, "jobs": jobs, "archive_missing": args.archive_missing})
     if res.status_code != 200:
         sys.exit(f"Import failed ({res.status_code}): {res.text}")
     print("Sync result:", res.json())

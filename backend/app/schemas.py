@@ -41,6 +41,7 @@ class JobUpdate(BaseModel):
 class ImportPayload(BaseModel):
     portal: str = "LinkedIn"
     jobs: List[JobCreate]
+    archive_missing: bool = False
 
 
 class LoginPayload(BaseModel):

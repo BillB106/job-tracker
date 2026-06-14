@@ -123,6 +123,7 @@ async function initGrid() {
       "prio-applied": (p) => p.data && p.data.prio === "Applied / in progress",
       "prio-discard": (p) => p.data && p.data.prio === "Discard / not interested",
       "status-offline": (p) => p.data && p.data.status === "Offline",
+      "status-archived": (p) => p.data && p.data.status === "Archived",
     },
     onCellValueChanged,
     onModelUpdated: updateCount,

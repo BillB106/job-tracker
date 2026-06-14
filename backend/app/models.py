@@ -11,7 +11,7 @@ PRIO_VALUES = [
     "Applied / in progress",
     "Discard / not interested",
 ]
-STATUS_VALUES = ["Open", "Offline", "Unknown"]
+STATUS_VALUES = ["Open", "Offline", "Unknown", "Archived"]
 
 DEFAULT_PRIO = "Not prioritized"
 DEFAULT_STATUS = "Open"

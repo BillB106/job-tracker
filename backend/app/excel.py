@@ -37,11 +37,13 @@ GREY = "AAB2BD"
 
 
 def _row_font(job, *, link=False):
-    """Font for a data cell, honouring Offline (italic+strike+grey) and Discard (grey)."""
-    offline = job.get("status") == "Offline"
+    """Font for a data cell, honouring Offline/Archived (strike+grey) and Discard (grey)."""
+    status = job.get("status")
     discard = job.get("prio") == "Discard / not interested"
-    if offline:
+    if status == "Offline":
         return Font(color=GREY, italic=True, strike=True, underline="single" if link else None)
+    if status == "Archived":
+        return Font(color=GREY, strike=True, underline="single" if link else None)
     if discard:
         return Font(color=GREY, underline="single" if link else None)
     if link:
