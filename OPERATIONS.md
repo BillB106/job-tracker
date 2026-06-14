@@ -14,9 +14,9 @@
 A personal web tool to track interesting jobs (LinkedIn now, other portals later).
 - **Stack:** FastAPI + SQLAlchemy + PostgreSQL backend; AG Grid frontend.
 - **Columns:** Job Portal · Prio · Status · Job Title (linked) · Company · Location · Work Type · Posted (approx) · Posted · Applicants/Clicks · Apply Method · Notes.
-- **Prio** (6): Not prioritized / Keep an eye on / Tackle now / Applied–in progress / Keep in backpocket / Discard. Rows colour-code by Prio.
-- **Status** = live posting state: Open / Offline / Unknown. Offline rows show italic + strikethrough + grey.
-- Filter & sort on every column; edits save automatically.
+- **Prio** (6): Not prioritized / Keep an eye on / Tackle now / Applied–in progress / Keep in backpocket / Discard. Rows colour-code by Prio (Keep in backpocket = grey background; Discard = grey font).
+- **Status** (4): Open / Offline / Unknown / Archived. Offline rows = italic + strikethrough + grey; Archived rows = dimmed + strikethrough.
+- Filter & sort on every column; **all cells are editable** (double-click) and save automatically — Prio/Status/Notes plus Posted, Posted (approx), Applicants, Apply Method, etc.
 
 ---
 
@@ -125,7 +125,16 @@ APP_PASSWORD="testpass123" SECRET_KEY="localdev" python3 -m uvicorn app.main:app
 - The repo is private; `.gitignore` keeps `jobs.db`, `.env`, and `*.xlsx` out of git.
 - The app is password-protected — don't remove that before exposing it publicly.
 
-## ➕ Adding another job portal later
+## ➕ Add a job manually (non-LinkedIn)
+For jobs not on LinkedIn (company sites, referrals, other portals): click **"+ Add job"**
+in the toolbar, then double-click cells to fill in Job Portal (e.g. `Company site`),
+Title, Company, Posted, Apply Method, Prio, Status, Notes — every column is editable.
+- Manual jobs are saved straight to the database and persist.
+- They have **no LinkedIn id**, so a re-scrape **never touches or archives them** — they
+  stay put no matter how often you sync LinkedIn.
+- You can add as many as you like (no collisions).
+
+## 🔌 Adding another job portal later (automated)
 Produce the same JSON shape with `"job_portal":"StepStone"` (etc.) and a stable `external_id`, then POST to `/api/import`. The UI, filters, and dedupe work unchanged.
 
 ## 🗂️ Project layout
