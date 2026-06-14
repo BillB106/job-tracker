@@ -32,6 +32,7 @@ PRIO_FILLS = {
     "Tackle now": "FCDCD8",
     "Keep an eye on": "FDF2C9",
     "Applied / in progress": "D8F3DF",
+    "Keep in backpocket": "DCE0E5",
 }
 GREY = "AAB2BD"
 

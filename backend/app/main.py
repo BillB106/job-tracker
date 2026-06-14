@@ -125,6 +125,11 @@ if FRONTEND_DIR.exists():
     def index():
         return FileResponse(str(FRONTEND_DIR / "index.html"))
 
+    @app.get("/favicon.ico")
+    def favicon():
+        return FileResponse(str(FRONTEND_DIR / "favicon.svg"),
+                            media_type="image/svg+xml")
+
 
 @app.get("/healthz")
 def healthz():

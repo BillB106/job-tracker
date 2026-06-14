@@ -14,7 +14,7 @@
 A personal web tool to track interesting jobs (LinkedIn now, other portals later).
 - **Stack:** FastAPI + SQLAlchemy + PostgreSQL backend; AG Grid frontend.
 - **Columns:** Job Portal · Prio · Status · Job Title (linked) · Company · Location · Work Type · Posted (approx) · Posted · Applicants/Clicks · Apply Method · Notes.
-- **Prio** (5): Not prioritized / Keep an eye on / Tackle now / Applied–in progress / Discard. Rows colour-code by Prio.
+- **Prio** (6): Not prioritized / Keep an eye on / Tackle now / Applied–in progress / Keep in backpocket / Discard. Rows colour-code by Prio.
 - **Status** = live posting state: Open / Offline / Unknown. Offline rows show italic + strikethrough + grey.
 - Filter & sort on every column; edits save automatically.
 

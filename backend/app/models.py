@@ -9,6 +9,7 @@ PRIO_VALUES = [
     "Keep an eye on",
     "Tackle now",
     "Applied / in progress",
+    "Keep in backpocket",
     "Discard / not interested",
 ]
 STATUS_VALUES = ["Open", "Offline", "Unknown", "Archived"]
@@ -39,7 +40,9 @@ class Job(Base):
     applicants = Column(String(100), default="")         # "57 clicked apply"
     apply_method = Column(String(50), default="")        # Off LinkedIn / Easy Apply
     job_portal = Column(String(80), nullable=False, default="LinkedIn")
-    external_id = Column(String(120), default="")        # portal-specific job id
+    # portal-specific job id; NULL for manual entries so several can coexist
+    # (the unique constraint treats NULLs as distinct, "" as collisions)
+    external_id = Column(String(120), nullable=True)
     source_url = Column(String(800), default="")
 
     # --- user-owned fields (preserved on re-import) ---
@@ -63,7 +66,7 @@ class Job(Base):
             "applicants": self.applicants,
             "apply_method": self.apply_method,
             "job_portal": self.job_portal,
-            "external_id": self.external_id,
+            "external_id": self.external_id or "",
             "source_url": self.source_url,
             "prio": self.prio,
             "status": self.status,

@@ -25,7 +25,8 @@ def _clean_status(value):
 def upsert_job(db: Session, data: dict, portal: str) -> tuple[Job, bool]:
     """Insert or update one job. Returns (job, created?)."""
     portal = data.get("job_portal") or portal or "LinkedIn"
-    external_id = (data.get("external_id") or "").strip()
+    # Empty id -> None so manual jobs don't collide on the unique constraint.
+    external_id = (data.get("external_id") or "").strip() or None
 
     job = None
     if external_id:

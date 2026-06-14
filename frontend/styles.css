@@ -39,6 +39,7 @@ html, body { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystem
 .ag-row.prio-tackle  { background-color: #fcdcd8 !important; }  /* red    – tackle now */
 .ag-row.prio-eye     { background-color: #fdf2c9 !important; }  /* yellow – keep an eye on */
 .ag-row.prio-applied { background-color: #d8f3df !important; }  /* green  – applied / in progress */
+.ag-row.prio-backpocket { background-color: #d4d9df !important; } /* grey bg – keep in backpocket (text stays dark/readable) */
 .ag-row.prio-discard .ag-cell { color: #aab2bd !important; }    /* light grey font – discard */
 .ag-row.prio-discard .ag-cell a { color: #aab2bd !important; }  /* dim the title link too */
 
