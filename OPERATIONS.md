@@ -20,6 +20,22 @@ A personal web tool to track interesting jobs (LinkedIn now, other portals later
 
 ---
 
+## ⭐ Standard refresh routine (recommended)
+The normal way to keep the board current — re-scrape, then push with archiving:
+```bash
+# 1. (Ask Claude to) re-scrape your LinkedIn tracker → writes scripts/scraped.json
+# 2. Push the fresh data AND archive anything you've un-saved:
+cd /Users/billbolls/job-tracker/scripts
+python3 sync_linkedin.py --json scraped.json --archive-missing \
+  --base-url https://job-tracker-production-bdcc.up.railway.app \
+  --password 'YOUR_APP_PASSWORD'
+```
+Result looks like `{'created': X, 'updated': Y, 'archived': Z, 'total': N}`.
+Then (optional) click **⬇ Export Excel** in the app, or run `build_xlsx.py`.
+In the app, filter the **Status** column to exclude `Archived` to see only active jobs.
+
+Details of each piece below. 👇
+
 ## 🔄 Re-scrape LinkedIn (get fresh jobs)
 LinkedIn can only be scraped **from your own logged-in browser** — it can't run on the server. So the flow is:
 1. Have the scrape run in your browser (ask Claude to re-run the LinkedIn jobs-tracker extraction, or do it manually). Save the result as a JSON array, e.g. `scraped.json`, with this shape per job:
